@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sensory — Export spec (one page)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f5f7f8; --surface:#ffffff; --ink:#101d23; --dim:#4e6069;
+    --line:#d9e1e5; --signal:#b26b00; --signal-deep:#8a5300; --green:#2e7d46;
+    --sans:'IBM Plex Sans',-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0 auto; max-width:800px; padding:40px 28px; background:var(--surface);
+    color:var(--ink); font:400 13.5px/1.55 var(--sans);
+  }
+  header { display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+           border-bottom:2px solid var(--ink); padding-bottom:12px; margin-bottom:6px; }
+  .brand { font-weight:700; font-size:16px; } .brand span { color:var(--signal); }
+  header .tag { font:500 11px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--dim); }
+  h1 { font-size:21px; margin:14px 0 4px; letter-spacing:-.015em; }
+  .lead { color:var(--dim); margin:0 0 6px; }
+  .dansk { font-size:12px; color:var(--dim); font-style:italic; margin:0 0 18px; }
+  h2 { font:600 12px var(--mono); letter-spacing:.1em; text-transform:uppercase;
+       color:var(--signal-deep); margin:20px 0 8px; display:flex; align-items:center; gap:8px; }
+  h2::before { content:""; width:12px; height:3px; background:var(--signal); }
+  ol.spec { margin:0; padding-left:0; list-style:none; counter-reset:s; display:grid; gap:7px; }
+  ol.spec li { counter-increment:s; padding-left:24px; position:relative; font:400 12.5px/1.5 var(--mono); color:var(--ink); }
+  ol.spec li::before { content:counter(s); position:absolute; left:0; color:var(--signal-deep); font-weight:600; }
+  ol.spec li .why { color:var(--dim); }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th, td { text-align:left; padding:6px 10px 6px 0; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font:600 11px var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
+  td.k { font-family:var(--mono); white-space:nowrap; color:var(--signal-deep); }
+  ul.plain { margin:0; padding-left:0; list-style:none; display:grid; gap:6px; }
+  ul.plain li { padding-left:18px; position:relative; color:var(--dim); }
+  ul.plain li::before { content:"—"; position:absolute; left:0; color:var(--signal-deep); }
+  ul.plain li b { color:var(--ink); }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  @media (max-width:640px){ .cols { grid-template-columns:1fr; } }
+  footer { margin-top:22px; padding-top:10px; border-top:1px solid var(--line);
+           font:400 11px var(--mono); color:var(--dim); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  @media print {
+    body { padding:0; font-size:12px; max-width:none; }
+    @page { size:A4; margin:16mm 15mm; }
+    a { color:inherit; text-decoration:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Sensory<span>.</span></div>
+  <div class="tag">Export spec · one page · v1</div>
+</header>
+
+<h1>What to export — and what you get back</h1>
+<p class="lead">Everything below comes straight out of your SRO/SCADA or historian. Expect it to take about twenty minutes, most of it waiting for the export to finish.</p>
+<p class="dansk">Spørgsmål og data på dansk er meget velkomne — skriv endelig på dansk.</p>
+
+<h2>The export — five lines</h2>
+<ol class="spec">
+  <li>One machine you care about — a pump, a heat exchanger, a motor. <span class="why">The one that surprises you.</span></li>
+  <li>All its logged tags: temperatures, pressures, flow, current, vibration, speed, valve/setpoints. <span class="why">Don't filter — more tags is better.</span></li>
+  <li>1-minute averages are plenty; hourly still works. <span class="why">Whatever your system exports by default.</span></li>
+  <li>6–12 months of history — ideally spanning a breakdown or repair you remember. <span class="why">So the report can check whether it had warning.</span></li>
+  <li>CSV or JSON, any delimiter. <span class="why">Semicolons, decimal commas, Danish headers — all fine.</span></li>
+</ol>
+
+<h2>Format details (for whoever runs the export)</h2>
+<table>
+  <tr><th>Aspect</th><th>Accepted</th></tr>
+  <tr><td class="k">CSV</td><td>Any delimiter (comma/semicolon/tab), decimal comma or point, one header row. One row per timestamp is ideal; one file per machine.</td></tr>
+  <tr><td class="k">JSON</td><td>Array of records, JSON Lines/NDJSON, one wrapped array (<code>{"readings": [...]}</code>), or column-oriented lists. Nested objects are fine.</td></tr>
+  <tr><td class="k">Timestamps</td><td>Any consistent format (ISO 8601 preferred). Local time is fine — say which.</td></tr>
+  <tr><td class="k">Units</td><td>Whatever you log. A tag list with units/descriptions is helpful if it's one click, not required.</td></tr>
+  <tr><td class="k">Gaps &amp; noise</td><td>Expected. Don't clean anything — missing values and sensor glitches are information.</td></tr>
+  <tr><td class="k">Size</td><td>Anything up to a few GB is fine. If the file is too big for email, we'll agree a transfer that suits your IT.</td></tr>
+</table>
+
+<div class="cols">
+  <div>
+    <h2>What you get back — within a week</h2>
+    <ul class="plain">
+      <li><b>A written findings report</b> (one self-contained file, forwardable).</li>
+      <li><b>What drifted and when</b> — health-over-time per machine, warning points marked.</li>
+      <li><b>Which sensor saw it first</b>, and how far from healthy it moved.</li>
+      <li><b>The breakdown check:</b> whether your last failure had warning in the data.</li>
+      <li><b>Every caveat stated</b> — including "we found nothing", if that's the truth.</li>
+    </ul>
+  </div>
+  <div>
+    <h2>How your data is handled</h2>
+    <ul class="plain">
+      <li>Processed on a <b>single machine in Denmark</b>; raw data never uploaded to any cloud service.</li>
+      <li>Stated up front: schema inference sends <b>column names, statistics, and a few sample values</b> to an AI API — never the bulk data. Object, and it's done by hand.</li>
+      <li>Used for <b>your analysis only</b>; never used to train models for anyone else.</li>
+      <li><b>Deleted when you say so</b> — confirmed in writing. A mutual NDA is signed before any data moves.</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <span>Sensory · sensor-agnostic predictive maintenance · Denmark</span>
+  <span>frixos.andreou.dk@gmail.com<!-- DOMAIN swap-in --> · freakysauce.github.io/sensory-site<!-- DOMAIN swap-in --></span>
+</footer>
+
+</body>
+</html>

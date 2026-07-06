@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sensory — Failure warning from data you already have</title>
 <meta name="description" content="Sensory learns each machine's healthy behaviour from the sensor history your SRO/SCADA already logs — no failure labels, no data-science project — and tells you which machine is drifting and which sensor saw it first.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sensory — your SCADA data already knows what's about to break">
+<meta property="og:description" content="Failure warning from data you already collect. All 30 unseen machines flagged before failure on NASA's benchmark, one false alarm. Send one export — free analysis.">
+<meta property="og:url" content="https://freakysauce.github.io/sensory-site/"><!-- DOMAIN swap-in -->
+<meta property="og:image" content="https://freakysauce.github.io/sensory-site/og.png"><!-- DOMAIN swap-in -->
+<meta name="twitter:card" content="summary_large_image">
 <!-- ═══════════ SWAP-IN CHECKLIST (when the name + legal entity land) ═══════════
      1. BRAND  — replace "Sensory" in <title>, meta, nav .brand, footer, prose (grep: Sensory).
      2. DOMAIN — served from GitHub Pages today; when the domain exists, add
@@ -208,6 +214,13 @@
   .checklist li span { color:var(--dim); } .checklist li span b { color:var(--ink); font-weight:600; }
   .checklist li span i { color:var(--ink); }
   .dansk { font-size:14.5px; color:var(--dim); font-style:italic; margin-top:18px; }
+  .dk-box { border:1px solid var(--line); border-left:4px solid var(--signal); border-radius:8px;
+            background:var(--bg); padding:18px 20px; margin-top:20px; }
+  .dk-box h3 { font-size:15px; margin:0 0 10px; }
+  .dk-box ul { margin:0; padding-left:0; list-style:none; display:grid; gap:8px; }
+  .dk-box li { font-size:14px; color:var(--dim); padding-left:16px; position:relative; }
+  .dk-box li::before { content:"—"; position:absolute; left:0; color:var(--signal-deep); }
+  .dk-box li b { color:var(--ink); }
 
   /* ── evidence ── */
   .val-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:28px; }
@@ -444,7 +457,16 @@
       <div class="reveal">
         <p>A district-heating plant is <strong>pumps, heat exchangers, and boilers</strong> — rotating and flow equipment, exactly the machine classes Sensory has been benchmarked on. It runs unattended most hours of the year, and a <strong>circulation-pump failure in January is not a maintenance ticket — it's a town getting cold</strong>.</p>
         <p>Your SRO already logs everything Sensory needs: temperatures, pressures, flows, pump currents, at minute resolution, going back years. Nobody is reading that history. Sensory does — it learns what your plant's healthy winter and summer look like, then ranks which machine is drifting away from its own normal, <strong>before the heating season tests it</strong>.</p>
-        <p class="dansk">Vi taler også dansk — skriv endelig på dansk, det tekniske klarer vi på engelsk.</p>
+        <div class="dk-box">
+          <h3>Kort fortalt — på dansk</h3>
+          <ul>
+            <li>Sensory lærer hver maskines normale adfærd af dens egen sensorhistorik — ingen fejl-labels — og fortæller i almindeligt sprog, hvilken maskine der driver, og hvilken sensor der så det først.</li>
+            <li>Testet på tre offentlige benchmarks: alle 30 usete maskiner markeret <b>før</b> havari (typisk 59 cyklusser før), med én falsk alarm.</li>
+            <li>Send én SRO-eksport (CSV eller JSON, 6–12 måneder, decimalkomma er fint) under NDA — I får en skriftlig rapport inden en uge. Gratis, én maskine, ingen forpligtelser.</li>
+            <li>Jeres rådata forlader aldrig én maskine i Danmark og slettes, når I siger til.</li>
+            <li>Sensory har aldrig set et fjernvarmeværk endnu — derfor er den første analyse gratis. Skriv endelig på dansk.</li>
+          </ul>
+        </div>
       </div>
       <ul class="checklist reveal d1">
         <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Validated on your machine classes:</b> real industrial pumps (acoustic), bearing vibration, and turbomachinery — not just simulations.</span></li>
@@ -545,6 +567,7 @@
           <li>6–12 months of history — ideally spanning a breakdown or repair you remember.</li>
           <li>CSV or JSON, any delimiter — semicolons and decimal commas are fine.</li>
         </ol>
+        <p style="margin:14px 0 0; font-size:13px;"><a href="data-spec.html">Open the full export spec (one printable page)</a> — forward it to whoever runs your SRO.</p>
       </div>
       <div class="handling reveal d1">
         <h3>How your data is handled</h3>
