@@ -20,6 +20,16 @@
   addEventListener('scroll', onScroll, { passive:true }); onScroll();
 
   /* ── reveal on scroll ─────────────────────────────────────────────── */
+  // section eyebrows follow the hero's pattern: split on '·' into phrases
+  // that land one by one after the dash draws
+  document.querySelectorAll('p.eyebrow.reveal').forEach(el => {
+    const parts = el.textContent.split('·').map(s => s.trim()).filter(Boolean);
+    el.textContent = '';
+    parts.forEach((p, i) => {
+      if (i){ const s = document.createElement('span'); s.className = 'sep'; s.textContent = '·'; el.appendChild(s); }
+      const ph = document.createElement('span'); ph.className = 'ph'; ph.textContent = p; el.appendChild(ph);
+    });
+  });
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
   }), { rootMargin:'0px 0px -8% 0px', threshold:.08 });
@@ -461,13 +471,13 @@ void main(){
     const octx = organCv.getContext('2d');
     const ostate = document.getElementById('ostate');
     const osense = document.getElementById('osense');
-    // ganglion sits HIGH (afferent pathways climb, as in the original
-    // Afferent concept): most fibers rise toward it and pulses travel upward
-    const GANG = { x:.315, y:.16 };
+    // ganglion sits HIGH and FAR (afferent pathways climb, as in the original
+    // Afferent concept) — clear air between it and the pump's wireframe
+    const GANG = { x:.20, y:.15 };
     const SENSORS = [
-      { x:.450, y:.385, sense:'a. rotation', key:'rotation', lx:-14, ly: 20, align:'right', ph:0   },
-      { x:.712, y:.205, sense:'b. thermal',  key:'thermal',  lx:-12, ly:-14, align:'right', ph:2.1 },
-      { x:.752, y:.085, sense:'c. pressure', key:'pressure', lx:-12, ly: -6, align:'right', ph:4.2 },
+      { x:.450, y:.385, sense:'a. rotation', key:'rotation', lx:-26, ly: 32, align:'right', ph:0   },
+      { x:.712, y:.205, sense:'b. thermal',  key:'thermal',  lx:-16, ly:-16, align:'right', ph:2.1 },
+      { x:.752, y:.085, sense:'c. pressure', key:'pressure', lx:-14, ly: -8, align:'right', ph:4.2 },
       { x:.700, y:.890, sense:'d. flow',     key:'flow',     lx:-16, ly: 26, align:'right', ph:5.6 },
     ];
     let W, H, fibers = [];
@@ -517,8 +527,8 @@ void main(){
       octx.beginPath(); octx.arc(0,0,s*.05*breathe,0,7); octx.fill();
       octx.font = '500 11px PlexMono, monospace';
       octx.fillStyle = 'rgba(152,161,170,.9)';
-      octx.textAlign = 'center';
-      octx.fillText('g.', 0, s*.05*breathe + 22);
+      octx.textAlign = 'right';
+      octx.fillText('g.', -(s*.05*breathe + 14), 4);
       octx.restore();
     }
 

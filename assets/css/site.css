@@ -94,13 +94,24 @@ body > nav, body > header, body > main, body > footer { position:relative; z-ind
 /* reveal */
 .js .reveal { opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.2,.6,.25,1), transform .6s cubic-bezier(.2,.6,.25,1); }
 .js .reveal.in { opacity:1; transform:none; }
-/* the needle extends: every section eyebrow's ember dash draws itself in
-   just after the block lands (scaleX — reserves its slot, no layout shift) */
+/* the needle extends, then the phrases land — the hero's eyebrow pattern,
+   applied to every section eyebrow (phrases are wrapped at runtime) */
+.eyebrow.reveal { flex-wrap:wrap; }
+.eyebrow.reveal .sep { color:var(--ember); }
 .js .eyebrow.reveal::before { transform:scaleX(0); transform-origin:left center;
-  transition:transform .55s cubic-bezier(.2,.6,.25,1) .3s; }
+  transition:transform .55s cubic-bezier(.2,.6,.25,1) .15s; }
 .js .eyebrow.reveal.in::before { transform:scaleX(1); }
+.js .eyebrow.reveal .ph, .js .eyebrow.reveal .sep { opacity:0; transform:translateY(5px);
+  transition:opacity .5s ease, transform .5s ease; }
+.js .eyebrow.reveal.in .ph, .js .eyebrow.reveal.in .sep { opacity:1; transform:none; }
+.js .eyebrow.reveal.in > :nth-child(1){ transition-delay:.4s }
+.js .eyebrow.reveal.in > :nth-child(2){ transition-delay:.68s }
+.js .eyebrow.reveal.in > :nth-child(3){ transition-delay:.8s }
+.js .eyebrow.reveal.in > :nth-child(4){ transition-delay:1.02s }
+.js .eyebrow.reveal.in > :nth-child(5){ transition-delay:1.14s }
 @media (prefers-reduced-motion: reduce){
-  .js .eyebrow.reveal::before { transform:none; transition:none; } }
+  .js .eyebrow.reveal::before { transform:none; transition:none; }
+  .js .eyebrow.reveal .ph, .js .eyebrow.reveal .sep { opacity:1; transform:none; transition:none; } }
 .js .reveal.d1 { transition-delay:.08s; } .js .reveal.d2 { transition-delay:.16s; } .js .reveal.d3 { transition-delay:.24s; }
 @media (prefers-reduced-motion: reduce){ .js .reveal { opacity:1; transform:none; transition:none; } }
 
