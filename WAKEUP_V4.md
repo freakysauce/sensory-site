@@ -46,16 +46,16 @@ robot-origin still) carries over.
       data-handling block, founder section, Danish note
 - [x] Routes: demo/, sample-report.html, data-spec.html, CNAME, og.png (regen)
 
-## Verdict (fresh eyes, 2026-07-12)
+## Verdict (final)
 
-**v4 beats v3 for this audience — PR opened.** v3 is the more beautiful
-object; v4 is the more credible instrument. The brief's criterion is
-credibility with maintenance/reliability engineers, and v4 speaks their
-mother tongue: annunciator windows, LAMP TEST/ACKNOWLEDGE, LED readouts,
-RAL-7032 enamel, paper deliverables shown as paper. A plant engineer
-arriving cold sees "the fourth dark AI site this week" in v3, and a control
-console in v4. Counterpoint stated in the PR: design-literate visitors
-(e.g. investors) may find v3 more impressive; the owner decides.
+**OWNER VERDICT, 2026-07-12: v3 stays the keeper. v4 did not win.**
+PR #3 closed on that decision; this branch stays pushed as the archive of
+the challenger, per the run prompt's end state.
+
+For the record, the builder's fresh-eyes judgment had been the opposite
+(v4 more credible for plant engineers: annunciator language, daylight
+enamel vs a fourth dark AI site; v3 the more beautiful object, stronger
+for design-literate eyes). The owner saw both live and chose v3.
 Side-by-sides: `guide/compare/`.
 
 ## If revived mid-run
