@@ -3,6 +3,34 @@
 **Started:** 2026-07-12 01:45 CEST · **Branch:** `redesign` · **Protocol:** ~/sensory/docs/OVERNIGHT_PROTOCOL.md
 **Prompt:** RUN_PROMPT.md (untracked, kept out of git via .git/info/exclude along with sensory/)
 
+## 10K CHECKLIST RUN (scheduled: starts ~06:45, 2h30m after user went to sleep at ~04:15)
+User instruction: close every remaining gap vs the "$10K checklist" screenshot
+(~/Pictures/Screenshot from 2026-07-12 04-07-32.png), working autonomously on branch
+redesign-v3 (worktree ~/sentys-site-v3, served :8323). DO NOT start before the first ping
+fires — the user is deliberately aligning the heavy work with a fresh usage-limit window.
+Work items, priority order (commit+push after each; screenshot-verify everything with
+scratchpad/shoot.js and the puppeteer patterns in this session's history):
+1. MOBILE DESIGNED-NOT-SHRUNK (the open gap, box 7):
+   a. Audit every section at 390x844 (shots first, fix from evidence).
+   b. Hero: composition balance, scrim vs plate visibility, voice-line wrap, eyebrow tracking.
+   c. Story: chart height/typography, story-head wrap, rail visibility, hint "swipe to run",
+      stage text sizes; verify inertia scrub feels right at touch scroll speeds.
+   d. Demo section: check demo/ iframe internals render sanely at 390 (route is preserved —
+      only minimal internal CSS fixes if actually broken).
+   e. Sections: platewall cells, evidence wall rows, gates, ask-doc padding, founder stack.
+2. INVISIBLE EXPENSIVE STUFF (box 8 extras):
+   a. Branded 404.html (GitHub Pages honors it): static plate look via CSS only, mono line
+      like "404 · no signal on this channel", link home. No JS needed.
+   b. apple-touch-icon (180x180 from brand/logo.png) + link tag; og:image:alt; twitter meta.
+   c. JSON-LD in index head: Organization (Sentys, https://sentys.ai, logo) + WebSite.
+3. TYPOGRAPHY MICRO-PASS (box 2 to 10/10): story stage kickers presence; readout numerals;
+   check widows in h2s at all widths; hero h1 mobile size.
+4. FINAL: full sweep desktop 1440 + 1920 + mobile 390 + reduced-motion + print; weight audit;
+   contrast spot-check; update this file; push. If everything passes, the checklist verdict
+   in the morning message should be 8/8 with evidence per box.
+Constraints: no new paid generations (budget reserved for FDE run). v1/v2 untouched.
+Honesty rules and routes as ever (see RUN_PROMPT_V3.md). tmux `sentys` has the servers.
+
 ## v3 addendum (branch redesign-v3, worktree ~/sentys-site-v3, :8323 — started 2026-07-12 ~03:50)
 Brief: RUN_PROMPT_V3.md ("the instrument sleeps"). User verdict on v1 vs v2: neither as-is;
 v2 architecture + v1 calm. Three moves:
