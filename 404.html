@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — Sentys</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f1216'/%3E%3Cpath d='M6 16c3.3 0 3.3-6 6.7-6s3.3 6 6.6 6 3.4-6 6.7-6' fill='none' stroke='%23f0a43c' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+@font-face { font-family:'Clash'; src:url('assets/fonts/ClashDisplay-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+@font-face { font-family:'PlexMono'; src:url('assets/fonts/PlexMono-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+@font-face { font-family:'Supreme'; src:url('assets/fonts/Supreme-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+html,body { margin:0; min-height:100svh; background:#0f1216; color:#ece5d6;
+  font:400 16px/1.65 'Supreme',-apple-system,sans-serif; display:grid; place-items:center; }
+/* a flatlined channel: pure CSS, no JS on an error page */
+.card { text-align:center; padding:40px 24px; max-width:560px; }
+.trace { position:relative; height:64px; margin:0 auto 30px; max-width:420px; overflow:hidden; }
+.trace::before { content:""; position:absolute; left:0; right:0; top:50%; height:2px;
+  background:repeating-linear-gradient(90deg, #4a5461 0 10px, transparent 10px 16px); }
+.trace::after { content:""; position:absolute; left:50%; top:50%; width:120px; height:2px;
+  transform:translateX(-50%); background:#f0a43c;
+  clip-path:polygon(0 0, 35% 0, 50% -1600%, 65% 0, 100% 0, 100% 100%, 0 100%); }
+.k { font:500 12px/1 'PlexMono',monospace; letter-spacing:.22em; color:#f0a43c; text-transform:uppercase; margin-bottom:14px; }
+h1 { font:500 clamp(28px,6vw,44px)/1.1 'Clash',sans-serif; margin:0 0 12px; }
+p { color:#98a1aa; margin:0 0 28px; }
+a.btn { display:inline-block; background:#f0a43c; color:#140f06; text-decoration:none;
+  font:500 15px/1.2 'Supreme',sans-serif; padding:14px 24px; border-radius:4px; }
+a.plain { color:#98a1aa; display:inline-block; margin-top:14px; font-size:14px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="trace" aria-hidden="true"></div>
+  <div class="k">404 · no signal on this channel</div>
+  <h1>This page isn't in the healthy baseline.</h1>
+  <p>The address may have drifted, or it never existed. Everything that matters is one page anyway.</p>
+  <a class="btn" href="/">Back to sentys.ai</a><br>
+  <a class="plain" href="/sample-report.html">or open the sample report</a>
+</div>
+</body>
+</html>

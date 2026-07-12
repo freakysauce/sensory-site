@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sentys logo source — screenshot at 1024×1024</title>
+<style>
+  html,body { margin:0; width:1024px; height:1024px; overflow:hidden; background:#0f1216; } svg{display:block}
+</style>
+</head>
+<body>
+<!-- Sentys mark: two standing-wave lines (the resonance signature).
+     Bold enough to read at 48px; safe inside a round crop. -->
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#1a2029"/>
+      <stop offset="70%" stop-color="#0f1216"/>
+      <stop offset="100%" stop-color="#0b0e12"/>
+    </radialGradient>
+  </defs>
+    <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g>
+    <!-- faint nodal field behind the mark -->
+    <g opacity=".14" stroke="#ece5d6" stroke-width="3" fill="none">
+      <path d="M60 340 C 210 240, 360 440, 512 340 S 814 240, 964 340"/>
+      <path d="M60 684 C 210 784, 360 584, 512 684 S 814 784, 964 684"/>
+    </g>
+    <!-- the mark: ember standing wave + dust echo wave, running edge to edge -->
+    <g fill="none">
+      <path d="M-40 512 C 80 330, 200 330, 320 512 S 560 694, 680 512 S 920 330, 1064 512"
+            stroke="#f0a43c" stroke-width="58"/>
+      <path d="M-40 512 C 80 694, 200 694, 320 512 S 560 330, 680 512 S 920 694, 1064 512"
+            stroke="#ece5d6" stroke-width="26" opacity=".8"/>
+    </g>
+  </g>
+</svg>
+</body>
+</html>

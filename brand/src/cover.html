@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sentys LinkedIn cover source — screenshot at 2256×382, downscale to 1128×191</title>
+<style>
+@font-face { font-family:'Clash'; src:url('../../assets/fonts/ClashDisplay-600.woff2') format('woff2'); font-weight:600; }
+@font-face { font-family:'Clash'; src:url('../../assets/fonts/ClashDisplay-500.woff2') format('woff2'); font-weight:500; }
+@font-face { font-family:'PlexMono'; src:url('../../assets/fonts/PlexMono-500.woff2') format('woff2'); font-weight:500; }
+html,body { margin:0; width:2256px; height:382px; overflow:hidden; background:#0f1216; }
+canvas { position:absolute; inset:0; width:2256px; height:382px; }
+.scrim { position:absolute; inset:0;
+  background:radial-gradient(60% 130% at 50% 50%, rgba(15,18,22,.82) 0%, rgba(15,18,22,.45) 55%, rgba(15,18,22,.1) 100%); }
+.center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; }
+.word { font:600 92px/1 'Clash', sans-serif; letter-spacing:.42em; color:#ece5d6; text-indent:.42em; }
+.word i { font-style:normal; color:#f0a43c; }
+.tag { font:500 24px/1 'PlexMono', monospace; letter-spacing:.3em; color:#98a1aa; text-transform:uppercase; }
+.tag b { color:#f0a43c; font-weight:500; }
+</style>
+</head>
+<body>
+<canvas id="c" width="2256" height="382"></canvas>
+<div class="scrim"></div>
+<div class="center">
+  <div class="word">SENTY<i>S</i></div>
+  <div class="tag">every machine has a <b>feeling</b> of healthy</div>
+</div>
+<script>
+// single deterministic frame of the site's Chladni shader
+const gl = document.getElementById('c').getContext('webgl', {antialias:false, alpha:false});
+const FS = `
+precision highp float;
+uniform vec2 uRes; uniform float uT; uniform vec4 uMode;
+float chladni(vec2 p, float m, float n){
+  return cos(m*3.14159*p.x)*cos(n*3.14159*p.y) - cos(n*3.14159*p.x)*cos(m*3.14159*p.y);
+}
+float hash(vec2 q){ return fract(sin(dot(q, vec2(127.1,311.7)))*43758.5453); }
+void main(){
+  vec2 uv = gl_FragCoord.xy / uRes;
+  float asp = uRes.x / uRes.y;
+  vec2 p = (uv - vec2(.5,.5)) * vec2(asp, 1.0) * 1.15;
+  float c = chladni(p, uMode.x, uMode.y);
+  float dust = 1.0 - smoothstep(0.0, 0.15, abs(c));
+  float grain = hash(gl_FragCoord.xy)*.5 + hash(gl_FragCoord.xy*1.7)*.5;
+  dust *= .5 + .5*grain;
+  vec3 plate = mix(vec3(.052,.06,.072), vec3(.078,.088,.104), uv.y);
+  vec3 col = plate + dust * vec3(.93,.90,.84) * .55;
+  gl_FragColor = vec4(col, 1.);
+}`;
+const VS = 'attribute vec2 p; void main(){ gl_Position=vec4(p,0.,1.); }';
+function sh(t,s){ const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o); return o; }
+const pr = gl.createProgram();
+gl.attachShader(pr, sh(gl.VERTEX_SHADER,VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER,FS));
+gl.linkProgram(pr); gl.useProgram(pr);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,3,-1,-1,3]), gl.STATIC_DRAW);
+const l = gl.getAttribLocation(pr,'p');
+gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+gl.viewport(0,0,2256,382);
+gl.uniform2f(gl.getUniformLocation(pr,'uRes'),2256,382);
+gl.uniform4f(gl.getUniformLocation(pr,'uMode'),7,2,0,0);
+gl.drawArrays(gl.TRIANGLES,0,3);
+</script>
+</body>
+</html>
