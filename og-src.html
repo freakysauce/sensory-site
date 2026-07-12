@@ -4,84 +4,96 @@
 <meta charset="utf-8">
 <title>Sentys og:image source — screenshot at 1200×630</title>
 <style>
-@font-face { font-family:'Clash'; src:url('assets/fonts/ClashDisplay-500.woff2') format('woff2'); font-weight:500; }
-@font-face { font-family:'Clash'; src:url('assets/fonts/ClashDisplay-600.woff2') format('woff2'); font-weight:600; }
+@font-face { font-family:'Tanker'; src:url('assets/fonts/Tanker-400.woff2') format('woff2'); font-weight:400; }
+@font-face { font-family:'Khand'; src:url('assets/fonts/Khand-600.woff2') format('woff2'); font-weight:600; }
+@font-face { font-family:'PlexMono'; src:url('assets/fonts/PlexMono-400.woff2') format('woff2'); font-weight:400; }
 @font-face { font-family:'PlexMono'; src:url('assets/fonts/PlexMono-500.woff2') format('woff2'); font-weight:500; }
 @font-face { font-family:'Supreme'; src:url('assets/fonts/Supreme-Regular.woff2') format('woff2'); font-weight:400; }
-html,body { margin:0; width:1200px; height:630px; overflow:hidden; background:#0f1216; }
-canvas { position:absolute; inset:0; width:1200px; height:630px; }
-.scrim { position:absolute; inset:0;
-  background:linear-gradient(94deg, rgba(15,18,22,.97) 0%, rgba(15,18,22,.88) 38%, rgba(15,18,22,.42) 62%, rgba(15,18,22,.05) 88%),
-             linear-gradient(to bottom, rgba(15,18,22,.25), rgba(15,18,22,0) 30%, rgba(15,18,22,.55) 100%); }
-.copy { position:absolute; left:72px; top:0; bottom:0; display:flex; flex-direction:column; justify-content:center; max-width:640px; }
-.brand { font:600 22px/1 'Clash', sans-serif; letter-spacing:.42em; color:#ece5d6; margin-bottom:34px; }
-.brand i { font-style:normal; color:#f0a43c; }
-h1 { font:500 64px/1.06 'Clash', sans-serif; color:#ece5d6; margin:0 0 24px; }
-h1 em { font-style:normal; color:#f0a43c; }
-.sub { font:400 21px/1.5 'Supreme', sans-serif; color:#98a1aa; margin:0 0 36px; max-width:30ch; }
-.sub b { color:#ece5d6; font-weight:400; }
-.chips { display:flex; gap:12px; }
-.chip { font:500 14px/1 'PlexMono', monospace; letter-spacing:.06em; color:#ece5d6; white-space:nowrap;
-  border:1px solid #2c3440; border-radius:5px; padding:11px 14px; background:rgba(15,18,22,.6); }
-.chip b { color:#f0a43c; font-weight:500; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1200px; height:630px; overflow:hidden; background:#c8c5ba; color:#32302a;
+  font-family:'Supreme',sans-serif; position:relative;
+  background-image:repeating-linear-gradient(90deg, rgba(255,255,255,.022) 0 1px, transparent 1px 3px); }
+.card { display:grid; grid-template-columns:640px 1fr; gap:44px; align-items:center;
+  height:100%; padding:0 56px; }
+
+.brand { display:flex; align-items:center; gap:14px; margin-bottom:34px; }
+.brand img { width:44px; height:44px; border-radius:9px; box-shadow:0 2px 4px rgba(0,0,0,.35); }
+.brand .word { font:600 30px/1 'Khand',sans-serif; letter-spacing:.32em; padding-top:4px;
+  text-shadow:0 1px 0 rgba(255,255,255,.48); }
+h1 { font:400 64px/0.98 'Tanker',sans-serif; text-transform:uppercase; letter-spacing:.01em;
+  text-shadow:0 1px 0 rgba(255,255,255,.48); margin-bottom:26px; }
+h1 em { font-style:normal; color:#a4650a; }
+.sub { font:400 21px/1.5 'Supreme',sans-serif; color:#565349; max-width:30ch; }
+.sub b { color:#32302a; }
+
+.panel { background:linear-gradient(180deg,#d7d4ca,#c8c5ba 9%,#c8c5ba 91%,#b6b3a8);
+  border-radius:8px; padding:26px 24px; position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(0,0,0,.16), 0 4px 14px rgba(0,0,0,.22); }
+.screw { position:absolute; width:12px; height:12px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#e9e6dd,#8e8b82 60%,#67645c);
+  box-shadow:inset 0 -1px 2px rgba(0,0,0,.4),0 1px 1px rgba(255,255,255,.4); }
+.screw::after { content:''; position:absolute; left:2px; right:2px; top:50%; height:1.5px;
+  background:rgba(40,38,32,.65); transform:rotate(33deg); }
+.screw.tl{top:9px;left:9px}.screw.tr{top:9px;right:9px}
+.screw.bl{bottom:9px;left:9px}.screw.br{bottom:9px;right:9px}
+.head { font:600 14px/1 'Khand',sans-serif; letter-spacing:.3em; text-transform:uppercase;
+  color:#565349; text-align:center; margin-bottom:16px; text-shadow:0 1px 0 rgba(255,255,255,.48); }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+.win { border-radius:4px; min-height:74px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:4px; padding:8px; text-align:center;
+  background:linear-gradient(180deg,#3f3d36,#454339 30%,#403e37);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.35); }
+.win .l1 { font:600 15px/1.15 'Khand',sans-serif; letter-spacing:.1em; color:#8b887c; text-transform:uppercase; }
+.win .l2 { font:400 11px/1.2 'PlexMono',monospace; letter-spacing:.07em; color:#767368; text-transform:uppercase; }
+.win.on { background:radial-gradient(ellipse at 50% 42%,#ffd894 0%,#f0a43c 55%,#c97e18 100%);
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.5), inset 0 -2px 5px rgba(120,60,0,.4),
+    0 0 22px rgba(240,164,60,.55), 0 1px 0 rgba(255,255,255,.3); }
+.win.on .l1 { color:#3a2503; } .win.on .l2 { color:#6b4a10; }
+.win.ok { background:radial-gradient(ellipse at 50% 42%,#7fd598 0%,#3f9857 60%,#2a7440 100%);
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.4), inset 0 -2px 5px rgba(0,60,20,.4), 0 1px 0 rgba(255,255,255,.3); }
+.win.ok .l1 { color:#0d3319; } .win.ok .l2 { color:#1d5230; }
+.note { font:400 12px/1.5 'PlexMono',monospace; color:#565349; text-align:center; margin-top:14px; letter-spacing:.03em; }
+
+.stats { position:absolute; left:56px; right:56px; bottom:34px; display:flex; gap:34px;
+  font:500 15px/1.3 'Khand',sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#565349;
+  text-shadow:0 1px 0 rgba(255,255,255,.48); }
+.stats b { font:500 17px/1 'PlexMono',monospace; color:#1d5230; letter-spacing:0; }
 </style>
 </head>
 <body>
-<canvas id="c" width="1200" height="630"></canvas>
-<div class="scrim"></div>
-<div class="copy">
-  <div class="brand">SENTY<i>S</i></div>
-  <h1>Every machine has a <em>feeling</em> of healthy.</h1>
-  <p class="sub">Failure warning from the sensor data you already log — <b>no failure labels, no data-science team.</b></p>
-  <div class="chips">
-    <span class="chip"><b>30/30</b> flagged before failure</span>
-    <span class="chip"><b>59</b> cycles median warning</span>
-    <span class="chip"><b>1</b> false alarm</span>
+<div class="card">
+  <div>
+    <div class="brand">
+      <img src="brand/logo.png" alt="">
+      <span class="word">SENTYS</span>
+    </div>
+    <h1>A warning light for what <em>hasn't failed yet</em>.</h1>
+    <p class="sub">Failure warning from the sensor data you already log.
+      <b>No failure labels. No data-science project.</b></p>
+  </div>
+  <div class="panel">
+    <span class="screw tl"></span><span class="screw tr"></span>
+    <span class="screw bl"></span><span class="screw br"></span>
+    <p class="head">Fleet annunciator</p>
+    <div class="grid">
+      <div class="win"><span class="l1">Thermal</span><span class="l2">Unit 01</span></div>
+      <div class="win"><span class="l1">Pressure</span><span class="l2">Unit 01</span></div>
+      <div class="win"><span class="l1">Rotation</span><span class="l2">Unit 02</span></div>
+      <div class="win"><span class="l1">Thermal</span><span class="l2">Unit 03</span></div>
+      <div class="win on"><span class="l1">Surprise high</span><span class="l2">Unit 03 · cycle 123</span></div>
+      <div class="win"><span class="l1">Flow</span><span class="l2">Unit 03</span></div>
+      <div class="win"><span class="l1">Thermal</span><span class="l2">Unit 04</span></div>
+      <div class="win ok"><span class="l1">Fleet normal</span><span class="l2">27 units</span></div>
+      <div class="win"><span class="l1">Pressure</span><span class="l2">Unit 04</span></div>
+    </div>
+    <p class="note">flagged at cycle 123 — failed at 179 · warning: 56 cycles</p>
   </div>
 </div>
-<script>
-// single deterministic frame of the site's Chladni shader, drift heat upper-right
-const gl = document.getElementById('c').getContext('webgl', {antialias:false, alpha:false});
-const FS = `
-precision highp float;
-uniform vec2 uRes;
-float chladni(vec2 p, float m, float n){
-  return cos(m*3.14159*p.x)*cos(n*3.14159*p.y) - cos(n*3.14159*p.x)*cos(m*3.14159*p.y);
-}
-float hash(vec2 q){ return fract(sin(dot(q, vec2(127.1,311.7)))*43758.5453); }
-void main(){
-  vec2 uv = gl_FragCoord.xy / uRes;
-  float asp = uRes.x / uRes.y;
-  vec2 p = (uv - vec2(.62,.48)) * vec2(asp, 1.0) * 1.9;
-  vec2 warpC = vec2(.5*asp, .3);
-  float wd = length(p - warpC);
-  vec2 pw = p + .16 * exp(-wd*1.5) * vec2(sin(3.8+wd*5.), cos(2.9+wd*4.));
-  float c = chladni(pw, 5.0, 3.0);
-  float dust = 1.0 - smoothstep(0.0, 0.15, abs(c));
-  float grain = hash(gl_FragCoord.xy)*.5 + hash(gl_FragCoord.xy*1.7)*.5;
-  dust *= .5 + .5*grain;
-  vec3 plate = mix(vec3(.052,.06,.072), vec3(.078,.088,.104), uv.y);
-  float heat = .75 * exp(-wd*1.25);
-  vec3 dustCol = vec3(.93,.90,.84);
-  dustCol = mix(dustCol, vec3(.99,.63,.28), clamp(heat*1.7,0.,1.));
-  dustCol = mix(dustCol, vec3(1.,.44,.26), clamp(heat*heat*1.9,0.,1.));
-  vec3 col = plate + dust * dustCol * (.6 + .42*heat);
-  float vig = smoothstep(1.7, .5, length((uv-vec2(.55,.5))*vec2(asp,1.)*1.5));
-  col *= .55 + .45*vig;
-  gl_FragColor = vec4(col, 1.);
-}`;
-const VS = 'attribute vec2 p; void main(){ gl_Position=vec4(p,0.,1.); }';
-function sh(t,s){ const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o); return o; }
-const pr = gl.createProgram();
-gl.attachShader(pr, sh(gl.VERTEX_SHADER,VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER,FS));
-gl.linkProgram(pr); gl.useProgram(pr);
-gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,3,-1,-1,3]), gl.STATIC_DRAW);
-const l = gl.getAttribLocation(pr,'p');
-gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
-gl.viewport(0,0,1200,630);
-gl.uniform2f(gl.getUniformLocation(pr,'uRes'),1200,630);
-gl.drawArrays(gl.TRIANGLES,0,3);
-</script>
+<div class="stats">
+  <span><b>30/30</b> flagged before failure</span>
+  <span><b>59</b> cycles median warning</span>
+  <span><b>1</b> false alarm</span>
+  <span><b>6</b> public benchmarks</span>
+</div>
 </body>
 </html>

@@ -2,34 +2,36 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sentys — Findings: fd001_export.csv</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f1216'/%3E%3Cpath d='M6 16c3.3 0 3.3-6 6.7-6s3.3 6 6.6 6 3.4-6 6.7-6' fill='none' stroke='%23f0a43c' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='h' x1='0' y1='0' x2='.6' y2='1'%3E%3Cstop offset='0' stop-color='%23f7dfae'/%3E%3Cstop offset='.42' stop-color='%23f0a43c'/%3E%3Cstop offset='1' stop-color='%23ff6a45'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='%230f1216'/%3E%3Cg transform='matrix(0.03043,0,0,-0.03043,5.911,26.196)'%3E%3Cpath d='M344 -10Q191 -10 109.0 50.0Q27 110 27 226V232H177V214Q177 166 211.0 146.5Q245 127 344 127Q431 127 461.5 141.0Q492 155 492 190Q492 220 472.0 234.5Q452 249 400 258L212 285Q21 315 21 473Q21 559 96.5 619.5Q172 680 328 680Q478 680 554.0 617.0Q630 554 630 444V438H479V452Q479 502 444.5 522.5Q410 543 313 543Q234 543 203.0 527.5Q172 512 172 479Q172 450 189.5 437.0Q207 424 250 416L438 386Q642 353 642 197Q642 108 568.0 49.0Q494 -10 344 -10Z' fill='url(%23h)'/%3E%3C/g%3E%3C/svg%3E">
 <style>
-@font-face { font-family:'Clash'; src:url('assets/fonts/ClashDisplay-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+/* v4 "THE PANEL": the report is a paper deliverable — paper in every scheme */
+@font-face { font-family:'Khand'; src:url('assets/fonts/Khand-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+@font-face { font-family:'PlexMono'; src:url('assets/fonts/PlexMono-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
 @font-face { font-family:'Supreme'; src:url('assets/fonts/Supreme-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
 @font-face { font-family:'Supreme'; src:url('assets/fonts/Supreme-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
-:root { --surface:#fbfaf6;--page:#f2efe8;--ink:#181b1f;--ink2:#565f68;--muted:#7d868f;--grid:#ddd8ca;--axis:#c4bfae;--series:#8a5c0a;--good:#3d8f5c;--border:rgba(24,27,31,0.12); }
-@media (prefers-color-scheme: dark) { :root { --surface:#151a21;--page:#0f1216;--ink:#ece5d6;--ink2:#98a1aa;--muted:#98a1aa;--grid:#242b35;--axis:#3a4450;--series:#f0a43c;--good:#57c07e;--border:rgba(236,229,214,0.12); } }
+:root { --surface:#fffdf8;--page:#fbf9f2;--ink:#26241d;--ink2:#57544a;--muted:#8a8676;--grid:#e3dfd2;--axis:#c9c3b0;--series:#a4650a;--good:#2e7d43;--border:rgba(38,36,29,0.14); }
 * { box-sizing: border-box; }
 body { margin:0; background:var(--page); color:var(--ink);
   font:15px/1.55 'Supreme',system-ui,-apple-system,"Segoe UI",sans-serif; }
-h1, h2, h3 { font-family:'Clash','Supreme',sans-serif; font-weight:500; }
+h1 { font-family:'Supreme',sans-serif; font-weight:700; }
+h2, h3 { font-family:'Supreme',sans-serif; font-weight:700; }
 .wrap { max-width: 880px; margin: 0 auto; padding: 28px 20px 56px; }
-header.rep { padding: 8px 0 20px; border-bottom: 1px solid var(--grid); }
-.brand { font:500 13px 'Clash',sans-serif; letter-spacing:.4em; text-transform:uppercase;
+header.rep { padding: 8px 0 20px; border-bottom: 2px solid var(--ink); }
+.brand { font:600 15px 'Khand',sans-serif; letter-spacing:.4em; text-transform:uppercase;
   color:var(--ink2); }
 h1 { font-size:26px; margin:6px 0 2px; }
-h2 { font-size:19px; margin:34px 0 10px; }
+h2 { font:500 13px 'PlexMono',monospace; letter-spacing:.08em; text-transform:uppercase; margin:34px 0 10px; }
 h3 { font-size:16px; margin:22px 0 8px; }
 .sub { color:var(--ink2); margin:0; }
 .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
   gap:12px; margin:22px 0 6px; }
 .tile { background:var(--surface); border:1px solid var(--border);
-  border-radius:10px; padding:14px 16px; }
+  border-radius:4px; padding:14px 16px; }
 .tile .lab { font-size:12.5px; color:var(--ink2); }
 .tile .val { font-size:30px; font-weight:600; margin-top:2px; }
 .tile .note { font-size:12px; color:var(--muted); margin-top:2px; }
 .card { background:var(--surface); border:1px solid var(--border);
-  border-radius:10px; padding:18px 20px; margin:14px 0; }
+  border-radius:4px; padding:18px 20px; margin:14px 0; }
 .card h2 { margin-top:0; }
 svg { width:100%; height:auto; display:block; }
 .tick { font:11px system-ui,sans-serif; fill:var(--muted);

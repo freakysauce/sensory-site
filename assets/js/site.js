@@ -76,6 +76,7 @@ const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
     const D = ENGINE03, N = D.life;
     const SENSES = ['thermal', 'pressure', 'rotation', 'flow'];
     const SENSE_HUES = { thermal:'#b0714f', pressure:'#7d90a0', rotation:'#d99a3c', flow:'#6fa08c' };
+    const SENSE_LBLS = { thermal:'#8a563a', pressure:'#5a6d7d', rotation:'#a4650a', flow:'#4d7a67' };
     const WARN = D.first_amber_cycle - 1;           // idx 122 → cycle 123
     const LMIN = Math.log10(0.55), LMAX = Math.log10(32);
 
@@ -94,7 +95,7 @@ const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
     }
 
     /* geometry: main lane (overall, log scale) + 4 sense mini-lanes */
-    const PAD = { l: 46, r: 14, t: 12, b: 8 };
+    const PAD = { l: 58, r: 14, t: 12, b: 8 };
     const laneGap = 7;
     const geom = () => {
       const mainH = (H - PAD.t - PAD.b) * 0.56;
@@ -142,10 +143,10 @@ const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
         const y0 = PAD.t + mainH + laneGap + k * (senseH + laneGap);
         ctx.strokeStyle = 'rgba(120,116,96,.28)'; ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(PAD.l, y0 + senseH); ctx.lineTo(W - PAD.r, y0 + senseH); ctx.stroke();
-        ctx.fillStyle = SENSE_HUES[s];
+        ctx.fillStyle = SENSE_LBLS[s];
         ctx.font = '500 9px "Plex Mono",monospace';
         ctx.textAlign = 'right';
-        ctx.fillText(s.slice(0, 4), PAD.l - 5, y0 + senseH / 2 + 3);
+        ctx.fillText(s.slice(0, 5), PAD.l - 6, y0 + senseH / 2 + 3);
       });
     }
 
@@ -180,10 +181,11 @@ const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
         ctx.font = '600 10px "Plex Mono",monospace';
         ctx.textAlign = 'right';
         ctx.fillText('FAILURE · 179', X(N-1) - 6, PAD.t + 12);
-        /* the payoff, on the paper itself */
-        ctx.fillStyle = 'rgba(90,86,70,.9)';
+        /* the payoff, stamped in the main lane between the two events */
+        ctx.fillStyle = 'rgba(90,86,70,.95)';
         ctx.textAlign = 'center';
-        ctx.fillText('← 56 CYCLES OF WARNING →', (X(WARN) + X(N-1)) / 2, H - PAD.b - 18);
+        const { mainH } = geom();
+        ctx.fillText('← 56 CYCLES OF WARNING →', (X(WARN) + X(N-1)) / 2, PAD.t + mainH - 12);
       }
       /* the overall pen line, drawn last so it rides on top */
       ctx.strokeStyle = '#2f4a3d'; ctx.lineWidth = 2; ctx.lineJoin = 'round';
