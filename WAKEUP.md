@@ -28,6 +28,16 @@ scratchpad/shoot.js and the puppeteer patterns in this session's history):
 4. FINAL: full sweep desktop 1440 + 1920 + mobile 390 + reduced-motion + print; weight audit;
    contrast spot-check; update this file; push. If everything passes, the checklist verdict
    in the morning message should be 8/8 with evidence per box.
+
+RUN COMPLETE ~07:05 (started on schedule ~06:45). Everything above executed:
+- Mobile: demo fleet grid 3-col + wrapping legend/controls inside its own ≤700px query
+  (route preserved, internal-only), eyebrow tracking ≤480, chips 2×2 (earlier), all sections
+  audited at 390 from screenshots. No overflow anywhere.
+- Invisible: branded 404.html (flatlined channel, CSS-only), apple-touch-icon.png (180²),
+  JSON-LD Organization+WebSite, og:image:alt.
+- Verified: 390/1440/1920 + reduced-motion, no console errors, first load 352KB.
+- HEARTBEAT PINGS (+3h45m/+5h/+6h30m): run is COMPLETE — verify `git log` shows the 10K
+  commit, confirm servers up (tmux sentys, :8320-:8323), and do NOTHING else. No generations.
 Constraints: no new paid generations (budget reserved for FDE run). v1/v2 untouched.
 Honesty rules and routes as ever (see RUN_PROMPT_V3.md). tmux `sentys` has the servers.
 
