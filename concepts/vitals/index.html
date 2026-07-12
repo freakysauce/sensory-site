@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentys — concept: vitals</title>
+<style>
+@font-face{font-family:'Author';src:url('../_fonts/author-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Author';src:url('../_fonts/author-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Author';src:url('../_fonts/author-700.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('../../assets/fonts/PlexMono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('../../assets/fonts/PlexMono-500.woff2') format('woff2');font-weight:500;font-display:swap}
+
+:root{
+  --bg:#f2f6f7;          /* clinical blue-white, never cream */
+  --card:#ffffff;
+  --ink:#0f272e;
+  --muted:#54707a;
+  --teal:#0d7c73;
+  --teal-deep:#095f59;
+  --red:#c73b30;
+  --amber:#c98a1b;
+  --grid:#e2ebee;
+  --line:#d3e0e4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Author',system-ui,sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;
+}
+.wrap{max-width:1180px;width:100%;margin:0 auto;padding:0 32px;display:flex;flex-direction:column;flex:1}
+
+header{display:flex;align-items:center;gap:14px;padding:20px 0}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.brand svg{width:30px;height:30px;border-radius:6px}
+.wordmark{font-weight:700;font-size:19px;letter-spacing:.3em}
+nav{margin-left:auto;display:flex;gap:26px;align-items:center}
+nav a{font-weight:500;font-size:15px;color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--ink)}
+nav a.cta{color:#fff;background:var(--teal);padding:9px 18px;border-radius:6px;font-weight:600}
+nav a.cta:hover{background:var(--teal-deep)}
+
+.hero{display:flex;flex-direction:column;padding-top:34px}
+.eyebrow{font-family:'Plex Mono';font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin-bottom:18px}
+h1{font-weight:700;font-size:clamp(42px,5vw,68px);line-height:1.02;letter-spacing:-.015em;max-width:15ch}
+h1 em{font-style:normal;color:var(--teal)}
+.lede{display:flex;gap:48px;align-items:flex-end;margin-top:22px;flex-wrap:wrap}
+.sub{font-size:17.5px;line-height:1.6;color:var(--muted);max-width:50ch;font-weight:500}
+.sub strong{color:var(--ink);font-weight:600}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{font-weight:600;font-size:15.5px;text-decoration:none;padding:13px 22px;border-radius:7px}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.primary:hover{background:var(--teal-deep)}
+.btn.ghost{color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1.5px var(--muted)}
+
+/* ── the patient strip ───────────────────────────── */
+.chart{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  margin-top:44px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(15,39,46,.05), 0 8px 28px rgba(15,39,46,.06);
+}
+.chart-head{
+  display:flex;gap:26px;flex-wrap:wrap;align-items:baseline;
+  padding:14px 22px;border-bottom:1px solid var(--line);
+  font-family:'Plex Mono';font-size:12px;letter-spacing:.05em;color:var(--muted);
+}
+.chart-head b{color:var(--ink);font-weight:500}
+.chart-head .live{margin-left:auto;color:var(--teal);display:flex;align-items:center;gap:7px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.strip{position:relative;height:240px}
+canvas{display:block;width:100%;height:100%}
+.chart-foot{
+  display:flex;gap:24px;flex-wrap:wrap;padding:12px 22px;border-top:1px solid var(--line);
+  font-family:'Plex Mono';font-size:11.5px;letter-spacing:.04em;color:var(--muted);
+}
+.key{display:flex;align-items:center;gap:8px}
+.key i{width:16px;height:0;border-top:2px solid var(--teal)}
+.key.warn i{border-top:2px dashed var(--amber)}
+.key.fail i{border-top:2px solid var(--red)}
+
+/* vitals row */
+.vitals{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0 40px}
+.vital{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--teal);
+  border-radius:8px;padding:16px 18px 14px}
+.vital .num{font-weight:700;font-size:34px;letter-spacing:-.01em;color:var(--ink);line-height:1}
+.vital .num .dim{color:var(--muted);font-weight:600}
+.vital .lbl{font-family:'Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:8px;line-height:1.45}
+
+@media (prefers-reduced-motion: reduce){ .live i{animation:none} }
+@media (max-width: 880px){
+  nav a:not(.cta){display:none}
+  .vitals{grid-template-columns:repeat(2,1fr)}
+  .strip{height:200px}
+}
+@media (max-width: 460px){
+  .wrap{padding:0 18px}
+  .vitals{grid-template-columns:repeat(2,1fr);gap:10px}
+  .vital .num{font-size:26px}
+  .strip{height:170px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a class="brand" href="#">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="h" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#f7dfae"/><stop offset=".42" stop-color="#f0a43c"/><stop offset="1" stop-color="#ff6a45"/></linearGradient></defs><rect width="32" height="32" rx="6" fill="#0f1216"/><g transform="matrix(0.03043,0,0,-0.03043,5.911,26.196)"><path d="M344 -10Q191 -10 109.0 50.0Q27 110 27 226V232H177V214Q177 166 211.0 146.5Q245 127 344 127Q431 127 461.5 141.0Q492 155 492 190Q492 220 472.0 234.5Q452 249 400 258L212 285Q21 315 21 473Q21 559 96.5 619.5Q172 680 328 680Q478 680 554.0 617.0Q630 554 630 444V438H479V452Q479 502 444.5 522.5Q410 543 313 543Q234 543 203.0 527.5Q172 512 172 479Q172 450 189.5 437.0Q207 424 250 416L438 386Q642 353 642 197Q642 108 568.0 49.0Q494 -10 344 -10Z" fill="url(#h)"/></g></svg>
+      <span class="wordmark">SENTYS</span>
+    </a>
+    <nav>
+      <a href="#">How it works</a>
+      <a href="#">One engine</a>
+      <a href="#">Evidence</a>
+      <a href="#">Sample report</a>
+      <a class="cta" href="#">Free analysis</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Predictive maintenance · any machine · any sensors</p>
+    <h1>Machines have <em>vitals</em>. Sentys reads them.</h1>
+    <div class="lede">
+      <p class="sub">It learns what healthy feels like from the sensor history you already log —
+        <strong>no failure labels, no data-science project on your side</strong> — and tells you, in plain
+        language, which machine is drifting and which sense felt it first.</p>
+    </div>
+    <div class="ctas">
+      <a class="btn primary" href="#">Send one export — free analysis</a>
+      <a class="btn ghost" href="#">See a sample report</a>
+    </div>
+  </section>
+
+  <section class="chart" aria-label="Surprise trace for engine unit 03">
+    <div class="chart-head">
+      <span>PT <b>UNIT 03 — TURBOFAN</b></span>
+      <span>SRC <b>NASA C-MAPSS FD001 · unseen</b></span>
+      <span>SIGNAL <b>SURPRISE, OVERALL</b></span>
+      <span class="live"><i></i>MONITORING</span>
+    </div>
+    <div class="strip"><canvas id="strip"></canvas></div>
+    <div class="chart-foot">
+      <span class="key"><i></i>surprise</span>
+      <span class="key warn"><i></i>warning raised · cycle 123</span>
+      <span class="key fail"><i></i>failure · cycle 179 — 56 cycles later</span>
+    </div>
+  </section>
+
+  <section class="vitals">
+    <div class="vital"><div class="num">30<span class="dim">/30</span></div><div class="lbl">unseen engines flagged before failure</div></div>
+    <div class="vital"><div class="num">59</div><div class="lbl">cycles of median warning</div></div>
+    <div class="vital"><div class="num">1</div><div class="lbl">false-alarm engine across the fleet</div></div>
+    <div class="vital"><div class="num">6</div><div class="lbl">public benchmarks · one unmodified pipeline</div></div>
+  </section>
+
+</div>
+<script src="../../assets/js/engine03-data.js"></script>
+<script>
+(() => {
+  const cv = document.getElementById('strip'), ctx = cv.getContext('2d');
+  const css = getComputedStyle(document.documentElement);
+  const C = n => css.getPropertyValue(n).trim();
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const d = ENGINE03.overall, N = d.length;
+  const warnIdx = ENGINE03.first_amber_cycle - 1;
+  let W, H, dpr;
+
+  function size(){
+    dpr = devicePixelRatio || 1;
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  const PAD = {l:16, r:16, t:18, b:14};
+  const ymax = Math.max(...d) * 1.08;
+  const X = i => PAD.l + (W - PAD.l - PAD.r) * i / (N - 1);
+  const Y = v => H - PAD.b - (H - PAD.t - PAD.b) * Math.min(v, ymax) / ymax;
+
+  function draw(upTo){
+    ctx.clearRect(0, 0, W, H);
+    // telemetry grid — cool, quiet
+    ctx.strokeStyle = C('--grid'); ctx.lineWidth = 1;
+    for (let x = PAD.l; x <= W - PAD.r; x += 34){ ctx.beginPath(); ctx.moveTo(x, PAD.t); ctx.lineTo(x, H - PAD.b); ctx.stroke(); }
+    for (let y = H - PAD.b; y >= PAD.t; y -= 26){ ctx.beginPath(); ctx.moveTo(PAD.l, y); ctx.lineTo(W - PAD.r, y); ctx.stroke(); }
+    // thresholds
+    ctx.setLineDash([5,4]);
+    ctx.strokeStyle = C('--amber'); ctx.beginPath(); ctx.moveTo(PAD.l, Y(ENGINE03.amber)); ctx.lineTo(W - PAD.r, Y(ENGINE03.amber)); ctx.stroke();
+    ctx.strokeStyle = C('--red');   ctx.beginPath(); ctx.moveTo(PAD.l, Y(ENGINE03.red));   ctx.lineTo(W - PAD.r, Y(ENGINE03.red));   ctx.stroke();
+    ctx.setLineDash([]);
+    // warning + failure markers (only once trace reaches them)
+    if (upTo >= warnIdx){
+      ctx.strokeStyle = C('--amber'); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(X(warnIdx), PAD.t); ctx.lineTo(X(warnIdx), H - PAD.b); ctx.stroke();
+    }
+    if (upTo >= N - 1){
+      ctx.strokeStyle = C('--red'); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(X(N-1), PAD.t); ctx.lineTo(X(N-1), H - PAD.b); ctx.stroke();
+    }
+    // trace
+    ctx.strokeStyle = C('--teal'); ctx.lineWidth = 2; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    for (let i = 0; i <= upTo; i++) i ? ctx.lineTo(X(i), Y(d[i])) : ctx.moveTo(X(i), Y(d[i]));
+    ctx.stroke();
+    // pen head
+    if (upTo < N - 1){
+      ctx.fillStyle = C('--teal');
+      ctx.beginPath(); ctx.arc(X(upTo), Y(d[upTo]), 3.5, 0, 7); ctx.fill();
+    }
+  }
+
+  size(); addEventListener('resize', () => { size(); draw(N-1); });
+  if (reduced){ draw(N - 1); return; }
+  let i = 0;
+  (function tick(){ draw(Math.min(i, N-1)); if (i++ <= N + 30) requestAnimationFrame(tick); else setTimeout(() => { i = 0; tick(); }, 6000); })();
+})();
+</script>
+</body>
+</html>

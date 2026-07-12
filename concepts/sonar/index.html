@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentys — concept: sonar</title>
+<style>
+@font-face{font-family:'Technor';src:url('../_fonts/technor-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Technor';src:url('../_fonts/technor-700.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Supreme';src:url('../../assets/fonts/Supreme-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Supreme';src:url('../../assets/fonts/Supreme-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('../../assets/fonts/PlexMono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+
+:root{
+  --abyss:#05161d;
+  --panel:#0a222b;
+  --foam:#dff4f1;
+  --muted:#7fa3a6;
+  --cyan:#4fe3d2;
+  --cyan-deep:#128c80;
+  --hair:rgba(79,227,210,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--abyss);color:var(--foam);
+  font-family:'Supreme',system-ui,sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden;
+}
+#falls{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(100deg, rgba(5,22,29,.94) 0%, rgba(5,22,29,.82) 38%, rgba(5,22,29,.25) 68%, rgba(5,22,29,.05) 100%)}
+.page{position:relative;z-index:2;display:flex;flex-direction:column;min-height:100vh;
+  max-width:1280px;width:100%;margin:0 auto;padding:0 36px}
+
+header{display:flex;align-items:center;gap:14px;padding:22px 0}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--foam)}
+.brand svg{width:30px;height:30px;border-radius:6px}
+.wordmark{font-family:'Technor';font-weight:700;font-size:18px;letter-spacing:.32em;padding-top:2px}
+nav{margin-left:auto;display:flex;gap:24px;align-items:center}
+nav a{font-family:'Plex Mono';font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--foam)}
+nav a.cta{color:var(--abyss);background:var(--cyan);padding:9px 16px;border-radius:4px;font-weight:500}
+nav a.cta:hover{filter:brightness(1.12)}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0 30px;max-width:640px}
+.eyebrow{font-family:'Plex Mono';font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);margin-bottom:20px}
+h1{font-family:'Technor';font-weight:700;font-size:clamp(44px,5.2vw,72px);line-height:1.0;letter-spacing:.005em;margin-bottom:24px}
+h1 em{font-style:normal;color:var(--cyan)}
+.sub{font-size:17px;line-height:1.65;color:var(--muted);max-width:47ch;margin-bottom:32px}
+.sub strong{color:var(--foam);font-weight:500}
+.ctas{display:flex;gap:14px;flex-wrap:wrap}
+.btn{font-family:'Technor';font-weight:500;font-size:15px;letter-spacing:.06em;text-decoration:none;padding:14px 22px;border-radius:4px}
+.btn.primary{background:var(--cyan);color:var(--abyss)}
+.btn.primary:hover{filter:brightness(1.12)}
+.btn.ghost{color:var(--foam);box-shadow:inset 0 0 0 1px var(--hair)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1px var(--cyan)}
+
+.mark{position:absolute;right:56px;top:46%;z-index:2;font-family:'Plex Mono');}
+.tag{font-family:'Plex Mono';font-size:11px;letter-spacing:.08em;color:var(--cyan);
+  border-left:1px solid var(--cyan);padding:2px 0 2px 10px;text-transform:uppercase;
+  text-shadow:0 0 12px rgba(79,227,210,.5)}
+.tag small{display:block;color:var(--muted);text-shadow:none;text-transform:none;letter-spacing:.04em}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--hair);padding:20px 0 26px}
+.stat{padding:0 22px;border-left:1px solid var(--hair)}
+.stat:first-child{padding-left:0;border-left:0}
+.stat .num{font-family:'Technor';font-weight:700;font-size:30px;color:var(--foam)}
+.stat .num .dim{color:var(--muted);font-weight:500}
+.stat .lbl{font-family:'Plex Mono';font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:6px;line-height:1.5}
+
+@media (max-width: 900px){
+  nav a:not(.cta){display:none}
+  .stats{grid-template-columns:repeat(2,1fr);row-gap:20px}
+  .stat:nth-child(3){border-left:0;padding-left:0}
+  .mark{display:none}
+  .scrim{background:linear-gradient(180deg, rgba(5,22,29,.9) 0%, rgba(5,22,29,.75) 55%, rgba(5,22,29,.4) 100%)}
+}
+@media (max-width: 460px){
+  .page{padding:0 20px}
+  .stat{padding:0 14px}
+}
+</style>
+</head>
+<body>
+<canvas id="falls" aria-hidden="true"></canvas>
+<div class="scrim" aria-hidden="true"></div>
+
+<div class="page">
+  <header>
+    <a class="brand" href="#">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="h" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#f7dfae"/><stop offset=".42" stop-color="#f0a43c"/><stop offset="1" stop-color="#ff6a45"/></linearGradient></defs><rect width="32" height="32" rx="6" fill="#0f1216"/><g transform="matrix(0.03043,0,0,-0.03043,5.911,26.196)"><path d="M344 -10Q191 -10 109.0 50.0Q27 110 27 226V232H177V214Q177 166 211.0 146.5Q245 127 344 127Q431 127 461.5 141.0Q492 155 492 190Q492 220 472.0 234.5Q452 249 400 258L212 285Q21 315 21 473Q21 559 96.5 619.5Q172 680 328 680Q478 680 554.0 617.0Q630 554 630 444V438H479V452Q479 502 444.5 522.5Q410 543 313 543Q234 543 203.0 527.5Q172 512 172 479Q172 450 189.5 437.0Q207 424 250 416L438 386Q642 353 642 197Q642 108 568.0 49.0Q494 -10 344 -10Z" fill="url(#h)"/></g></svg>
+      <span class="wordmark">SENTYS</span>
+    </a>
+    <nav>
+      <a href="#">How it works</a>
+      <a href="#">One engine</a>
+      <a href="#">Evidence</a>
+      <a href="#">Report</a>
+      <a class="cta" href="#">Free analysis</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Predictive maintenance · any machine · any sensors</p>
+    <h1>Hear the failure <em>forming</em>.</h1>
+    <p class="sub">Machines announce their failures weeks in advance — in frequencies no one is
+      listening to. Sentys learns what healthy sounds like from the sensor history you already log,
+      <strong>no failure labels, no data-science project</strong>, and names the sense that heard it first.</p>
+    <div class="ctas">
+      <a class="btn primary" href="#">Send one export — free analysis</a>
+      <a class="btn ghost" href="#">See a sample report</a>
+    </div>
+  </section>
+
+  <div class="mark">
+    <div class="tag">defect tone · rising<small>unit 03 — 56 cycles to failure</small></div>
+  </div>
+
+  <section class="stats">
+    <div class="stat"><div class="num">30<span class="dim">/30</span></div><div class="lbl">unseen engines flagged before failure</div></div>
+    <div class="stat"><div class="num">59</div><div class="lbl">cycles of median warning</div></div>
+    <div class="stat"><div class="num">1</div><div class="lbl">false-alarm engine across the fleet</div></div>
+    <div class="stat"><div class="num">6</div><div class="lbl">public benchmarks · one unmodified pipeline</div></div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const cv = document.getElementById('falls'), ctx = cv.getContext('2d');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W, H, t = 0;
+
+  // colormap: abyss → deep teal → cyan → foam
+  const stops = [[5,22,29],[10,58,66],[18,140,128],[79,227,210],[223,244,241]];
+  const cmap = new Array(256);
+  for (let i = 0; i < 256; i++){
+    const p = i / 255 * (stops.length - 1), k = Math.min(stops.length - 2, Math.floor(p)), f = p - k;
+    cmap[i] = stops[k].map((c, j) => Math.round(c + (stops[k+1][j] - c) * f));
+  }
+
+  function size(){ W = cv.width = innerWidth; H = cv.height = innerHeight; }
+  size();
+
+  // one spectrum row at time tt → intensity 0..1 per x
+  function spectrum(x, tt){
+    const fx = x / W;
+    let v = 0.10 + 0.06 * Math.sin(x * 0.05 + tt * 0.02) + Math.random() * 0.10;   // broadband noise
+    v += 0.30 * Math.exp(-Math.pow((fx - 0.18) * 46, 2));                          // shaft 1×
+    v += 0.20 * Math.exp(-Math.pow((fx - 0.36) * 52, 2));                          // 2×
+    v += 0.14 * Math.exp(-Math.pow((fx - 0.54) * 60, 2));                          // 3×
+    const grow = Math.min(1, tt / 900);                                            // the fault, forming
+    v += grow * 0.55 * Math.exp(-Math.pow((fx - 0.62) * 85, 2));                   // defect tone
+    v += grow * 0.22 * Math.exp(-Math.pow((fx - 0.685) * 110, 2));                 // sideband
+    v += grow * 0.18 * Math.exp(-Math.pow((fx - 0.555) * 110, 2));                 // sideband
+    v *= 0.85 + 0.15 * Math.sin(fx * 3.1);                                         // gentle response shape
+    return Math.max(0, Math.min(1, v));
+  }
+
+  function pushRow(tt){
+    ctx.drawImage(cv, 0, 0, W, H - 2, 0, 2, W, H - 2);   // scroll down
+    const row = ctx.createImageData(W, 2);
+    for (let x = 0; x < W; x++){
+      const c = cmap[Math.round(spectrum(x, tt) * 255)];
+      for (const y of [0, 1]){
+        const o = (y * W + x) * 4;
+        row.data[o] = c[0]; row.data[o+1] = c[1]; row.data[o+2] = c[2]; row.data[o+3] = 255;
+      }
+    }
+    ctx.putImageData(row, 0, 0);
+  }
+
+  function fill(){ for (let y = 0; y < H / 2; y++) pushRow(t++); }
+  fill();
+  addEventListener('resize', () => { size(); fill(); });
+  if (reduced) return;
+  (function tick(){ pushRow(t++); pushRow(t++); requestAnimationFrame(tick); })();
+})();
+</script>
+</body>
+</html>

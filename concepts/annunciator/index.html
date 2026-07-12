@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentys — concept: annunciator</title>
+<style>
+@font-face{font-family:'Tanker';src:url('../_fonts/tanker-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Khand';src:url('../_fonts/khand-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Khand';src:url('../_fonts/khand-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Supreme';src:url('../../assets/fonts/Supreme-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Supreme';src:url('../../assets/fonts/Supreme-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('../../assets/fonts/PlexMono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('../../assets/fonts/PlexMono-500.woff2') format('woff2');font-weight:500;font-display:swap}
+
+:root{
+  --panel:#c8c5ba;        /* RAL 7032 pebble grey — cabinet fascia */
+  --panel-lo:#b4b1a6;
+  --panel-hi:#d6d3c9;
+  --groove-d:#96938a;
+  --ink:#33312a;          /* engraved legend */
+  --ink-soft:#55524a;
+  --lens-off:#4a4841;     /* unlit annunciator lens */
+  --amber:#f0a43c;        /* lit lens — true signal state only */
+  --amber-deep:#c97e18;
+  --green:#2e7d43;        /* run/normal */
+  --led:#57e389;          /* LED digits in readout windows */
+  --red:#b23a2f;
+  --screw:#8e8b82;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--panel-lo);
+  font-family:'Supreme',system-ui,sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  /* enamel texture: faint vertical brushing */
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
+}
+.engr{ text-shadow:0 1px 0 rgba(255,255,255,.5); }
+
+/* ── console fascia ─────────────────────────────── */
+.console{
+  flex:1;display:flex;flex-direction:column;
+  max-width:1280px;width:100%;margin:0 auto;
+  padding:18px;gap:14px;
+}
+.plate{
+  background:linear-gradient(180deg,var(--panel-hi),var(--panel) 8%,var(--panel) 92%,var(--panel-lo));
+  border-radius:6px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    0 2px 6px rgba(0,0,0,.22);
+  position:relative;
+}
+.screw{position:absolute;width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#e8e5dc,var(--screw) 60%,#6a675f);
+  box-shadow:inset 0 -1px 2px rgba(0,0,0,.4), 0 1px 1px rgba(255,255,255,.4);}
+.screw::after{content:'';position:absolute;left:1.5px;right:1.5px;top:50%;height:1.5px;
+  background:rgba(40,38,32,.68);transform:rotate(33deg);border-radius:1px}
+.screw.tl{top:7px;left:7px}.screw.tr{top:7px;right:7px}
+.screw.bl{bottom:7px;left:7px}.screw.br{bottom:7px;right:7px}
+.screw.tr::after{transform:rotate(-21deg)}.screw.bl::after{transform:rotate(80deg)}.screw.br::after{transform:rotate(-60deg)}
+
+/* top rail */
+.rail{display:flex;align-items:center;gap:20px;padding:12px 26px;}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand svg{width:34px;height:34px;border-radius:7px;box-shadow:0 1px 2px rgba(0,0,0,.35)}
+.wordmark{font-family:'Khand';font-weight:600;font-size:22px;letter-spacing:.34em;line-height:1;padding-top:2px}
+.rail nav{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.navbtn{font-family:'Khand';font-weight:500;font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;color:var(--ink-soft);padding:7px 13px;border-radius:4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), inset 0 0 0 1px rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.12);
+  background:linear-gradient(180deg,var(--panel-hi),var(--panel));}
+.navbtn:hover{color:var(--ink)}
+.navbtn.go{background:linear-gradient(180deg,#3f9857,var(--green));color:#eef7ef;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 3px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.3);
+  text-shadow:0 1px 1px rgba(0,0,0,.3)}
+
+/* main split */
+.deck{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:14px;flex:1}
+.copy{padding:52px 56px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-family:'Khand';font-weight:600;font-size:14px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);
+  display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow::before{content:'';width:26px;height:3px;background:var(--amber-deep);border-radius:2px;
+  box-shadow:0 1px 0 rgba(255,255,255,.4)}
+h1{font-family:'Tanker';font-weight:400;font-size:clamp(40px,4.6vw,64px);line-height:.98;
+  text-transform:uppercase;letter-spacing:.01em;margin-bottom:24px;max-width:13ch}
+h1 .lit{color:var(--amber-deep)}
+.sub{font-size:17px;line-height:1.65;color:var(--ink-soft);max-width:52ch;margin-bottom:34px}
+.sub strong{color:var(--ink);font-weight:500}
+.ctas{display:flex;gap:14px;flex-wrap:wrap}
+.push{font-family:'Khand';font-weight:600;font-size:15px;letter-spacing:.13em;text-transform:uppercase;
+  text-decoration:none;padding:14px 24px 13px;border-radius:6px;position:relative}
+.push.primary{background:linear-gradient(180deg,#43a05b,#2a7440);color:#f0f8f1;text-shadow:0 1px 1px rgba(0,0,0,.35);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), inset 0 -3px 4px rgba(0,0,0,.28), 0 2px 5px rgba(0,0,0,.3);}
+.push.primary:hover{filter:brightness(1.06)}
+.push.plain{color:var(--ink-soft);background:linear-gradient(180deg,var(--panel-hi),var(--panel));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), inset 0 0 0 1px rgba(0,0,0,.16), 0 2px 4px rgba(0,0,0,.18);}
+.push.plain:hover{color:var(--ink)}
+
+/* ── annunciator ─────────────────────────────────── */
+.annunciator{padding:26px;display:flex;flex-direction:column}
+.ann-head{font-family:'Khand';font-weight:600;font-size:13px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--ink-soft);text-align:center;margin-bottom:16px}
+.ann-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex:1}
+.win{
+  border-radius:4px;min-height:64px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:8px 6px;text-align:center;
+  background:linear-gradient(180deg,#3f3d36,var(--lens-off) 30%,#403e37);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.35);
+}
+.win .l1{font-family:'Khand';font-weight:600;font-size:12.5px;letter-spacing:.1em;line-height:1.15;color:#8b887c;text-transform:uppercase}
+.win .l2{font-family:'Plex Mono';font-size:9.5px;letter-spacing:.08em;color:#767368;text-transform:uppercase}
+.win.on{
+  background:radial-gradient(ellipse at 50% 42%,#ffd894 0%,var(--amber) 55%,var(--amber-deep) 100%);
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.5), inset 0 -2px 5px rgba(120,60,0,.4),
+    0 0 18px rgba(240,164,60,.55), 0 1px 0 rgba(255,255,255,.3);
+  animation:blink 2.4s ease-in-out infinite;
+}
+.win.on .l1{color:#3a2503}
+.win.on .l2{color:#6b4a10}
+.win.ok{background:radial-gradient(ellipse at 50% 42%,#7fd598 0%,#3f9857 60%,#2a7440 100%);
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.4), inset 0 -2px 5px rgba(0,60,20,.4), 0 1px 0 rgba(255,255,255,.3)}
+.win.ok .l1{color:#0d3319}.win.ok .l2{color:#1d5230}
+@keyframes blink{0%,100%{filter:brightness(1)}50%{filter:brightness(.72)}}
+.win.lamptest{background:radial-gradient(ellipse at 50% 42%,#ffd894 0%,var(--amber) 55%,var(--amber-deep) 100%) !important;animation:none !important}
+.win.lamptest .l1{color:#3a2503 !important}.win.lamptest .l2{color:#6b4a10 !important}
+.ann-foot{display:flex;gap:8px;margin-top:14px;justify-content:center}
+.smallbtn{font-family:'Khand';font-weight:600;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-soft);padding:7px 14px;border-radius:4px;border:0;cursor:pointer;
+  background:linear-gradient(180deg,var(--panel-hi),var(--panel));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), inset 0 0 0 1px rgba(0,0,0,.16), 0 1px 2px rgba(0,0,0,.16);}
+.smallbtn:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.25)}
+.ann-note{font-family:'Plex Mono';font-size:10.5px;color:var(--ink-soft);text-align:center;margin-top:12px;letter-spacing:.04em}
+
+/* ── stats rail ──────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{padding:16px 20px 14px;display:flex;flex-direction:column;gap:8px}
+.stat .readout{
+  font-family:'Plex Mono';font-weight:500;font-size:30px;letter-spacing:.02em;
+  color:var(--led);background:#161814;border-radius:4px;padding:6px 12px 4px;align-self:flex-start;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.7), inset 0 0 0 1px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.4);
+  text-shadow:0 0 7px rgba(87,227,137,.6);
+}
+.stat .readout .dim{color:#3c6e4b;text-shadow:none}
+.stat .cap{font-family:'Khand';font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);line-height:1.3}
+
+@media (prefers-reduced-motion: reduce){ .win.on{animation:none} }
+@media (max-width: 980px){
+  .deck{grid-template-columns:1fr}
+  .copy{padding:40px 30px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .rail nav .navbtn:not(.go){display:none}
+}
+@media (max-width: 460px){
+  .console{padding:10px;gap:10px}
+  .copy{padding:32px 22px}
+  h1{font-size:38px}
+  .stats{gap:10px}
+  .stat .readout{font-size:24px}
+}
+</style>
+</head>
+<body>
+<div class="console">
+
+  <div class="plate rail">
+    <a class="brand" href="#">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="h" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#f7dfae"/><stop offset=".42" stop-color="#f0a43c"/><stop offset="1" stop-color="#ff6a45"/></linearGradient></defs><rect width="32" height="32" rx="6" fill="#0f1216"/><g transform="matrix(0.03043,0,0,-0.03043,5.911,26.196)"><path d="M344 -10Q191 -10 109.0 50.0Q27 110 27 226V232H177V214Q177 166 211.0 146.5Q245 127 344 127Q431 127 461.5 141.0Q492 155 492 190Q492 220 472.0 234.5Q452 249 400 258L212 285Q21 315 21 473Q21 559 96.5 619.5Q172 680 328 680Q478 680 554.0 617.0Q630 554 630 444V438H479V452Q479 502 444.5 522.5Q410 543 313 543Q234 543 203.0 527.5Q172 512 172 479Q172 450 189.5 437.0Q207 424 250 416L438 386Q642 353 642 197Q642 108 568.0 49.0Q494 -10 344 -10Z" fill="url(#h)"/></g></svg>
+      <span class="wordmark engr">SENTYS</span>
+    </a>
+    <nav>
+      <a class="navbtn" href="#">How it works</a>
+      <a class="navbtn" href="#">One engine</a>
+      <a class="navbtn" href="#">Evidence</a>
+      <a class="navbtn" href="#">Sample report</a>
+      <a class="navbtn go" href="#">Free analysis</a>
+    </nav>
+  </div>
+
+  <div class="deck">
+    <div class="plate copy">
+      <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+      <p class="eyebrow engr">Predictive maintenance · any machine · any sensors</p>
+      <h1 class="engr">A warning light for what <span class="lit">hasn't failed yet</span>.</h1>
+      <p class="sub">Sentys learns what healthy feels like from the sensor history you already
+        log — <strong>no failure labels, no data-science project on your side</strong> — and raises a
+        plain-language warning when a machine starts to drift, naming the sense that felt it first.</p>
+      <div class="ctas">
+        <a class="push primary" href="#">Send one export — free analysis</a>
+        <a class="push plain" href="#">See a sample report</a>
+      </div>
+    </div>
+
+    <div class="plate annunciator">
+      <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+      <p class="ann-head engr">Fleet annunciator — turbofan test cell</p>
+      <div class="ann-grid" id="grid">
+        <div class="win"><span class="l1">Thermal</span><span class="l2">Unit 01</span></div>
+        <div class="win"><span class="l1">Pressure</span><span class="l2">Unit 01</span></div>
+        <div class="win"><span class="l1">Vibration</span><span class="l2">Unit 01</span></div>
+        <div class="win"><span class="l1">Thermal</span><span class="l2">Unit 02</span></div>
+        <div class="win"><span class="l1">Pressure</span><span class="l2">Unit 02</span></div>
+        <div class="win"><span class="l1">Vibration</span><span class="l2">Unit 02</span></div>
+        <div class="win"><span class="l1">Thermal</span><span class="l2">Unit 03</span></div>
+        <div class="win on"><span class="l1">Surprise high</span><span class="l2">Unit 03 · cycle 123</span></div>
+        <div class="win"><span class="l1">Vibration</span><span class="l2">Unit 03</span></div>
+        <div class="win ok"><span class="l1">Fleet normal</span><span class="l2">27 units</span></div>
+        <div class="win"><span class="l1">Thermal</span><span class="l2">Unit 04</span></div>
+        <div class="win"><span class="l1">Pressure</span><span class="l2">Unit 04</span></div>
+      </div>
+      <div class="ann-foot">
+        <button class="smallbtn" id="lamptest">Lamp test</button>
+        <button class="smallbtn" id="ack">Acknowledge</button>
+      </div>
+      <p class="ann-note">unit 03 flagged at cycle 123 — failed at 179. warning: 56 cycles.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="plate stat"><span class="readout">30<span class="dim">/30</span></span><span class="cap engr">unseen engines flagged before failure</span></div>
+    <div class="plate stat"><span class="readout">59</span><span class="cap engr">cycles of median warning</span></div>
+    <div class="plate stat"><span class="readout">1</span><span class="cap engr">false-alarm engine across the fleet</span></div>
+    <div class="plate stat"><span class="readout">6</span><span class="cap engr">public benchmarks · one unmodified pipeline</span></div>
+  </div>
+
+</div>
+<script>
+const wins=[...document.querySelectorAll('.win')];
+document.getElementById('lamptest').addEventListener('pointerdown',()=>wins.forEach(w=>w.classList.add('lamptest')));
+['pointerup','pointerleave'].forEach(e=>document.getElementById('lamptest').addEventListener(e,()=>wins.forEach(w=>w.classList.remove('lamptest'))));
+document.getElementById('ack').addEventListener('click',()=>document.querySelector('.win.on').style.animation='none');
+</script>
+</body>
+</html>
