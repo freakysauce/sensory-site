@@ -217,7 +217,14 @@ section h2 { font-size:clamp(30px, 3.8vw, 48px); margin:0 0 14px; max-width:24ch
 .story-chip .cv { display:block; font-size:17px; color:var(--ok-dark); letter-spacing:0; }
 .story-chip.warn .cv { color:var(--ember); }
 .story-chip.hot .cv { color:var(--heat); }
-@media (max-width:720px){ .story-chip { padding:9px 10px; font-size:10px; } .story-chip .cv { font-size:14px; } }
+@media (max-width:720px){
+  .story-chips { grid-template-columns:1fr 1fr; }
+  .story-chip { padding:10px 14px; font-size:10.5px; border-bottom:1px solid var(--hairline); }
+  .story-chip:nth-child(2n){ border-right:0; }
+  .story-chip:nth-child(n+3){ border-bottom:0; }
+  .story-chip .cv { font-size:16px; }
+  .story-stages { min-height:150px; }
+}
 .story-rail { position:relative; height:4px; background:var(--hairline); border-radius:0 0 8px 8px; overflow:visible; }
 .story-rail .fill { display:block; height:100%; width:0; background:linear-gradient(90deg, var(--dust) 0%, var(--ember) 62%, var(--heat) 100%); transition:width .12s linear; }
 .story-rail .tick { position:absolute; top:-3px; bottom:-3px; left:68.7%; width:2px; background:var(--ember); opacity:.8; }
@@ -230,7 +237,7 @@ section h2 { font-size:clamp(30px, 3.8vw, 48px); margin:0 0 14px; max-width:24ch
 @keyframes hintbob { 50% { transform:translateY(3px); } }
 @media (prefers-reduced-motion: reduce){ .story-hint .ar { animation:none; } }
 @media (prefers-reduced-motion: reduce){ .story-hint { transition:none; } }
-.story-stages { position:relative; min-height:118px; margin-top:20px; }
+.story-stages { position:relative; min-height:132px; margin-top:20px; }
 .story-stage { position:absolute; inset:0; opacity:0; transform:translateY(10px);
   transition:opacity .3s ease, transform .3s ease; pointer-events:none; }
 .story-stage.on { opacity:1; transform:none; pointer-events:auto; transition:opacity .45s ease .18s, transform .45s ease .18s; }
@@ -238,6 +245,8 @@ section h2 { font-size:clamp(30px, 3.8vw, 48px); margin:0 0 14px; max-width:24ch
 .story-stage p { margin:0; font-size:clamp(15.5px, 1.8vw, 18px); color:var(--dust); max-width:72ch; text-shadow:0 1px 12px rgba(15,18,22,.9); }
 .story-stage p i { color:var(--dust-dim); }
 .story-stage .s-quote { font:500 14px/1.7 var(--mono); color:var(--ember); }
+.story-stage .s-payoff { font:500 clamp(26px,3.4vw,44px)/1.1 var(--display); color:var(--dust); margin-bottom:8px; }
+.story-stage .s-payoff b { color:var(--ember); font-weight:500; }
 .story-stage a { color:var(--ember); }
 /* static fallback (reduced motion): stack the stages, no scrub */
 .story-static .story-track { height:auto; }
