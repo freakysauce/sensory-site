@@ -4,7 +4,11 @@
 **Prompt:** RUN_PROMPT.md (untracked, kept out of git via .git/info/exclude along with sensory/)
 
 ## Current milestone
-M9 — Mirror to ~/sensory/docs/product/website/ + open PR (all 3 iteration passes done)
+✅ RUN COMPLETE — 2026-07-12 ~03:00 CEST. All milestones M0–M9 done.
+PR open: https://github.com/sentys-ai/sentys-site/pull/1 (merging it live is the user's
+single manual step). Site mirrored to ~/sensory/docs/product/website/ (rsync --delete,
+excludes: .git, sensory/, RUN_PROMPT.md, WAKEUP.md). Resume pings disarmed after completion.
+Any future edit to the site must go to BOTH copies (sentys-site repo + sensory mirror).
 
 ## Done
 - [x] M0 Setup: read ONE_PAGER/VISION/MANIFESTO/EVIDENCE/WORLD_MODEL + current site copy;
